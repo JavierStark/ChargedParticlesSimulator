@@ -6,7 +6,7 @@ var menuPosition;
 var menuHeight;
 var toggleButtonPos;
 function setup() {
-  createCanvas(700, 700); 
+  createCanvas(windowWidth, windowHeight); 
   frameRate(60);
   menuPosition = height-height/9;
   menuHeight = height/9;
