@@ -1,6 +1,6 @@
 var particles = [];
-var next = true;
-var pause = false;
+var fixed = false;
+var pause = true;
 
 var menuPosition;
 var menuHeight;
@@ -30,7 +30,7 @@ function mouseClicked(){
        mouseY > toggleButtonPos.y-buttonSize/2 &&
        mouseY < toggleButtonPos.y+buttonSize/2){
       
-      next = !next;
+      fixed = !fixed;
     }
     if(mouseX > pauseButtonPos.x-buttonSize/2 &&
        mouseX < pauseButtonPos.x+buttonSize/2 &&
@@ -44,8 +44,8 @@ function mouseClicked(){
   }
   let position = createVector(mouseX, mouseY);
   if (mouseButton === LEFT) {
-    console.log(next)
-    particles.push(new Particle(next, prompt(), position));
+    console.log(fixed)
+    particles.push(new Particle(fixed, prompt("Inserta la cantidad de carga"), position));
   }
   return false;
 }
@@ -66,7 +66,7 @@ function drawMenu(){
   fill(pause ? "#db3055" : "#58d67a");
   rect(pauseButtonPos.x, pauseButtonPos.y, buttonSize, buttonSize, 5);
 
-  fill(next? "#57593a" : "#d6cc58");
+  fill(fixed? "#57593a" : "#d6cc58");
   rect(toggleButtonPos.x, toggleButtonPos.y, buttonSize, buttonSize, 5);
 
   pop();
