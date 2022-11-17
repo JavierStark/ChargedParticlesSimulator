@@ -8,7 +8,7 @@ var toggleButtonPos;
 var resolutionConst;
 function setup() {
   pixelDensity(1);
-  createCanvas(displayWidth, displayHeight); 
+  createCanvas(windowWidth, windowHeight); 
   frameRate(60);
   menuPosition = height-height/9;
   menuHeight = height/9;
