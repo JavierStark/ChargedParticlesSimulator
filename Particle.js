@@ -3,6 +3,8 @@ class Particle{
     this.fixed = fixed;
     this.charge = charge;
     this.position = position;
+    this.acc = createVector(0,0);
+    this.vel = createVector(0,0);
     this.force = createVector(0,0);
     this.fillColor = charge > 0? "#344ceb" : "#f03322";
     this.strokeColor = fixed? "#824de3" : "#d6cc58";
@@ -18,27 +20,34 @@ class Particle{
   }
   
   update(this_particle, particles){
-    this.updateForce(this_particle, particles);
+    let collision = this.updateForce(this_particle, particles);
     this.updatePosition();
+
+    return collision;
   }
   
   updateForce(this_particle, particles){
     if(this.fixed) return;
     for(let p of particles){    
       if(p === this_particle) continue;
-      if(p5.Vector.dist(p.position, this.position) < 0.05){
-        
+      if(p5.Vector.dist(p.position, this.position) < 20){
+        console.log("destroy")
+        return true;
       }
       let direction = p5.Vector.sub(this.position, p.position);
       direction.normalize();
       let newForce = p5.Vector.mult(direction, this.getForce(p));
-      this.force = p5.Vector.add(newForce, this.force);    
+      this.force = p5.Vector.add(newForce, this.force);          
     }
+    return false;
   }
   
   updatePosition(){
     if(this.fixed) return;
-    this.position = p5.Vector.add(this.force, this.position);
+    this.acc = p5.Vector.div(this.force, this.charge);
+    this.vel = p5.Vector.add(this.acc, this.vel);
+    this.position = p5.Vector.add(this.vel, this.position);
+    this.acc.set(0,0);
   }  
 
   clicked(mousePosition){
@@ -47,6 +56,6 @@ class Particle{
   
   
   getForce(particle){
-    return this.resolutionConst * 3 * (this.charge*particle.charge)/(Math.pow(particle.position.dist(this.position), 2));
+    return this.resolutionConst * 2 * (this.charge*particle.charge)/(Math.pow(particle.position.dist(this.position), 2));
   }
 }

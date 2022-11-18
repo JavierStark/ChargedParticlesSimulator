@@ -20,10 +20,12 @@ function setup() {
 
 function draw() {
   background(100);
-    
-  drawMenu();
+   
+  
   updateParticles();  
   drawParticles();
+
+  drawMenu();
 }
 
 function mouseClicked(){  
@@ -102,15 +104,14 @@ function drawMenu(){
 function updateParticles(){
   if(pause) return;
   for(let i = 0; i < particles.length; i++){
-    particles[i].update(particles[i], particles);
-    garbageColector(i);
+    let collision = particles[i].update(particles[i], particles);
+    garbageColector(i, collision);
   }
 }
 
-function garbageColector(index){
+function garbageColector(index, collision){
   let pos = particles[index].position;
-  if(pos.x > width  || pos.x < 0 || pos.y > height || pos.y < 0 || particles[index].charge == 0){
+  if(collision ||pos.x > width  || pos.x < 0 || pos.y > height || pos.y < 0 || particles[index].charge == 0){
     particles.splice(index, 1);
-  }
-  
+  }  
 }
